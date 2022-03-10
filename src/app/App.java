@@ -9,7 +9,7 @@ public class App {
 		JFrame frame = new JFrame();
 		JPanel ui = new UserInterface();
 		frame.add(ui);
-		frame.setBounds(200, 300, 500, 500);
+		frame.setBounds(200, 300, 300, 300);
 		frame.setContentPane(ui);
 		frame.setTitle("Simple Calculator");
 		frame.setResizable(false);
