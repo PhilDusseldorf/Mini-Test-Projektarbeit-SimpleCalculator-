@@ -13,16 +13,19 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 
+import app.MainController;
 import app.MainModel;
 
 import java.awt.Color;
 import java.awt.Component;
 
-public class UserInterface extends JPanel implements Observer {
+public class UserInterface extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 441150729215903406L;
+	
+	private MainController controller;
 	
 	// panels
 	private JPanel northP;
@@ -56,7 +59,9 @@ public class UserInterface extends JPanel implements Observer {
 	private JButton btnComma;
 	private JButton btnResult;
 	
-	public UserInterface() {
+	public UserInterface(MainController controller) {
+		this.controller = controller;
+		
 		this.setLayout(new BorderLayout(0, 0));
 		this.setBounds(new Rectangle(300, 300));
 		
@@ -146,17 +151,16 @@ public class UserInterface extends JPanel implements Observer {
 		btnMinus = new JButton("-");
 		centerP.add(btnMinus);
 		
-		for (JButton button : centerP) {
-			
-		}
+		addAllActionListeners();
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		if (o instanceof MainModel) {
-			System.out.println(arg.toString() + " pressed");
+	private void addAllActionListeners() {
+		Component[] compArray = centerP.getComponents();
+		for (Component comp : compArray) {
+			if (comp instanceof JButton) {
+				// System.out.println("Buttontext: " + ((JButton)comp).getText());
+				((JButton)comp).addActionListener(controller);
+			}
 		}
-		
 	}
-
 }
