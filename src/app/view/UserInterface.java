@@ -173,8 +173,11 @@ public class UserInterface extends JPanel {
 		}
 	}
 	
-	public void updateUI(String calculation, String result) {
-		lblCalculation.setText(calculation);
-		lblResult.setText(result);
+	public void setResult(String r) {
+		lblResult.setText(r);
+	}
+	
+	public void setCalculationText(String c) {
+		lblCalculation.setText(c);
 	}
 }

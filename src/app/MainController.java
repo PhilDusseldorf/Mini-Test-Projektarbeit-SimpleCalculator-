@@ -35,6 +35,14 @@ public class MainController implements ActionListener {
 	public String getEquation() {
 		return model.getEquation();
 	}
+	
+	public void showEquation(String sb) {
+		view.getUi().setCalculationText(sb);
+	}
+	
+	public void showResult(String result) {
+		view.getUi().setResult(result);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -42,13 +50,6 @@ public class MainController implements ActionListener {
 		if (e.getSource() instanceof JButton) {
 			// System.out.println("I execute " + ((JButton)e.getSource()).getText());
 			model.reactToButton(((JButton)e.getSource()).getText());
-		}
-		
+		}		
 	}
-
-	public void updateUI() {
-		// TODO Auto-generated method stub
-		view.getUi().updateUI(model.getEquation(), model.getResult());
-	}
-
 }

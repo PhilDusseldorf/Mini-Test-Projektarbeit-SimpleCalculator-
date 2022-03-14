@@ -8,27 +8,27 @@ public class MainModel {
 	
 	private StringBuilder equation;
 	private final int equationLengthStart = 45;
-	private int[] operators = {'(', ')', '+', '-', '*', '/', ','};
+	private int[] symbols = {'(', ')', '+', '-', '*', '/', ','};
 	
 	private String result;
+	private final String resultText = "Result";
 	
 	// CONSTRUCTORS
 	public MainModel (MainController controller) {
 		this.controller = controller;
 		
 		equation = new StringBuilder(equationLengthStart);
-		result = "Result";
+		result = resultText;
 	}
 	
 	// GETTERS/SETTERS
 	public String getEquation() {
-		return equation.toString() == "" ? "Type in an equation" : equation.toString();
+		return equation.toString() == "" ? "type in an equation" : equation.toString();
 	}
 	
 	public String getResult() {
 		return result;
 	}
-	
 	
 	// METHODS
 	public void reactToButton(String command) {
@@ -48,8 +48,8 @@ public class MainModel {
 		// make the sign into an integer to allow streaming an char array
 		int signAsInt = (int)(sign.charAt(0));
 		// start comparison only if sign is an operator and the equation is greater than 0 chars
-		if (equation.length() > 0 && Arrays.stream(operators).anyMatch(operator -> operator == signAsInt)) {
-			for (int x : operators) {
+		if (equation.length() > 0 && Arrays.stream(symbols).anyMatch(operator -> operator == signAsInt)) {
+			for (int x : symbols) {
 				// delete last index of the equation if the new input is an operator
 				if (equation.charAt(equation.length()-1) == x) {
 					equation.deleteCharAt(equation.length()-1);
@@ -59,22 +59,34 @@ public class MainModel {
 		}
 		// add sign to equation
 		equation.append(sign);
-		System.out.println("New Equation: " + equation);
-		controller.updateUI();
+		//System.out.println("New Equation: " + equation);
+		controller.showEquation(getEquation());
 	}
 
 	private void deleteLastEntry() {
-		// TODO Auto-generated method stub
-		
+		equation.deleteCharAt(equation.length()-1);	
+		controller.showEquation(getEquation());
 	}
 
 	private void deleteEquation() {
-		// TODO Auto-generated method stub
-		
+		equation.delete(0, equation.length());
+		controller.showEquation(getEquation());
+		controller.showResult(resultText);
 	}
 
 	private void calculateEquation() {
-		// TODO Auto-generated method stub
+		// The equation to be calculate from StringBuilder to String
+		String eq = getEquation();
+		// the new result as a double
+		double newResult = 0.0;
 		
+		for (int i = 0; i < eq.length(); i++) {
+			if (eq.charAt(i) == 0) {
+				
+			}
+		}
+		
+		result = String.valueOf(newResult);
+		controller.showResult(result);
 	}
 }
