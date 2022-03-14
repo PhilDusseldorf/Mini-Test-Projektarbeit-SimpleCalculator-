@@ -1,6 +1,8 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainModel {
 	// ATTRIBUTES
@@ -8,11 +10,14 @@ public class MainModel {
 	
 	private StringBuilder equation;
 	private final int equationLengthStart = 45;
-	private int[] symbols = {'(', ')', '+', '-', '*', '/', ','};
+	private final int[] symbols = {'(', ')', '+', '-', '*', '/', ','};
+	private final int[] operators = {'+', '-', '*', '/'};
 	
 	private String result;
 	private final String resultText = "Result";
 	
+	private List<Double> numbers = new ArrayList<Double>();
+
 	// CONSTRUCTORS
 	public MainModel (MainController controller) {
 		this.controller = controller;
@@ -48,7 +53,7 @@ public class MainModel {
 		// make the sign into an integer to allow streaming an char array
 		int signAsInt = (int)(sign.charAt(0));
 		// start comparison only if sign is an operator and the equation is greater than 0 chars
-		if (equation.length() > 0 && Arrays.stream(symbols).anyMatch(operator -> operator == signAsInt)) {
+		if (equation.length() > 0 && Arrays.stream(symbols).anyMatch(symbol -> symbol == signAsInt)) {
 			for (int x : symbols) {
 				// delete last index of the equation if the new input is an operator
 				if (equation.charAt(equation.length()-1) == x) {
@@ -69,24 +74,83 @@ public class MainModel {
 	}
 
 	private void deleteEquation() {
+		// emtpy equation
 		equation.delete(0, equation.length());
 		controller.showEquation(getEquation());
+		// show result text
 		controller.showResult(resultText);
 	}
 
 	private void calculateEquation() {
-		// The equation to be calculate from StringBuilder to String
-		String eq = getEquation();
-		// the new result as a double
-		double newResult = 0.0;
+		// empty lists
+		numbers.clear();
 		
-		for (int i = 0; i < eq.length(); i++) {
-			if (eq.charAt(i) == 0) {
-				
+		
+		// get all numbers in equation
+		buildDoubleNumbers();
+		// perform calculation
+		double res = performCalculation();
+		
+		
+		equation.delete(0, equation.length());
+		result = String.valueOf(res);		
+		controller.showResult(result);
+	}
+	
+	private double performCalculation() {
+		double res = 0.0;
+		for (int i = 0; i < equation.length(); i++) {
+			char c = equation.charAt(i);
+			int intChar = (int)c;
+			
+			// if an op is found a calculation is performed
+			if (Arrays.stream(operators).anyMatch(op -> op == intChar)) {
+				switch (c) {
+					case '+':
+						res += numbers.get(0) + numbers.get(1);
+						numbers.remove(0);
+						break;
+					case '-':
+						res += numbers.get(0) - numbers.get(1);
+						numbers.remove(0);
+						break;
+				}
+			}
+			System.out.println("Liste: " + numbers.toString());
+		}
+		return res;
+	}
+
+	private void buildDoubleNumbers() {
+		boolean isOp = false;		 
+		// StringBuilder to make a double from
+		StringBuilder numStringB = new StringBuilder();
+		// iterate through equation to find numbers
+		for (int i = 0; i < equation.length(); i++) {
+			isOp = false;
+			char c = equation.charAt(i);
+			int intChar = (int)c;
+			
+			// if an op is found, a number is created and stored in list
+			if (Arrays.stream(operators).anyMatch(op -> op == intChar)) {
+				numbers.add(Double.parseDouble(numStringB.toString()));
+				isOp = true;
+			}
+			
+			// change ',' to '.' for double number
+			if (c == ',') {
+				c = '.';
+			}
+			
+			// add char to String if it is not an operator
+			if (!isOp) {
+				numStringB.append(c); 
+			} else {
+				numStringB.delete(0, numStringB.length());
 			}
 		}
-		
-		result = String.valueOf(newResult);
-		controller.showResult(result);
+		// add last number to numbers arraylist
+		numbers.add(Double.parseDouble(numStringB.toString()));
+		System.out.println(numbers.toString());
 	}
 }
