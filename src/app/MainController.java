@@ -9,17 +9,27 @@ import app.view.MainView;
 import app.view.UserInterface;
 
 public class MainController implements ActionListener {
+	// ATTRIBUTES
+	private MainModel model;
+	private MainView view;
+	private UserInterface ui;
 	
-	MainModel model;
-	MainView view;
-	UserInterface ui;
-	
+	// CONSTRUCTORS
 	public MainController() {
 		// create an instance of all necessary entities
 		this.model = new MainModel(this);
-		this.ui = new UserInterface(this);
-		this.view = new MainView(this, ui);
+		this.view = new MainView(this);
 	}
+	
+	// GETTERS/SETTERS
+	public MainModel getModel() {
+		return model;
+	}
+
+	public MainView getView() {
+		return view;
+	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

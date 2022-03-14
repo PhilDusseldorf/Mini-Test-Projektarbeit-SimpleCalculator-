@@ -5,16 +5,12 @@ import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import javax.swing.JButton;
-import java.awt.Rectangle;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 
 import app.MainController;
-import app.MainModel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -30,6 +26,13 @@ public class UserInterface extends JPanel {
 	// panels
 	private JPanel northP;
 	private JPanel centerP;
+	
+	// measurements
+	private final int northHeight = 100;
+	private final int centerHeight = 200;
+	private int windowHeight;
+	private int windowWidth;
+	
 	
 	// labels
 	private JLabel lblCalculation;
@@ -59,30 +62,34 @@ public class UserInterface extends JPanel {
 	private JButton btnComma;
 	private JButton btnResult;
 	
-	public UserInterface(MainController controller) {
+	public UserInterface(MainView view, MainController controller) {
 		this.controller = controller;
+		windowWidth = view.getWidth();
+		windowHeight = view.getHeight();
 		
 		this.setLayout(new BorderLayout(0, 0));
-		this.setBounds(new Rectangle(300, 300));
+		this.setSize(windowWidth, windowHeight);
 		
 		northP = new JPanel();
 		northP.setBackground(Color.WHITE);
 		northP.setBorder(new EmptyBorder(10, 10, 10, 10));
+		northP.setSize(windowWidth, northHeight);
 		add(northP, BorderLayout.NORTH);
 		northP.setLayout(new BoxLayout(northP, BoxLayout.Y_AXIS));
 		
-		lblCalculation = new JLabel("29 + 100 / 2");
+		lblCalculation = new JLabel("");
 		lblCalculation.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		lblCalculation.setBackground(Color.WHITE);
 		lblCalculation.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		northP.add(lblCalculation);
 		
-		lblResult = new JLabel("79");
+		lblResult = new JLabel("Result");
 		lblResult.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		lblResult.setFont(new Font("Tahoma", Font.BOLD, 20));
 		northP.add(lblResult);
 		
 		centerP = new JPanel();
+		centerP.setSize(windowWidth, centerHeight);
 		add(centerP, BorderLayout.CENTER);
 		centerP.setLayout(new GridLayout(0, 4, 0, 0));
 		
