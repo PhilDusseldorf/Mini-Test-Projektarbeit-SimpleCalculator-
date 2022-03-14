@@ -62,6 +62,7 @@ public class UserInterface extends JPanel {
 	private JButton btnComma;
 	private JButton btnResult;
 	
+	// CONSTRUCTORS
 	public UserInterface(MainView view, MainController controller) {
 		this.controller = controller;
 		windowWidth = view.getWidth();
@@ -77,13 +78,13 @@ public class UserInterface extends JPanel {
 		add(northP, BorderLayout.NORTH);
 		northP.setLayout(new BoxLayout(northP, BoxLayout.Y_AXIS));
 		
-		lblCalculation = new JLabel("");
+		lblCalculation = new JLabel(controller.getEquation());
 		lblCalculation.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		lblCalculation.setBackground(Color.WHITE);
 		lblCalculation.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		northP.add(lblCalculation);
 		
-		lblResult = new JLabel("Result");
+		lblResult = new JLabel(controller.getResult());
 		lblResult.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		lblResult.setFont(new Font("Tahoma", Font.BOLD, 20));
 		northP.add(lblResult);
@@ -160,7 +161,8 @@ public class UserInterface extends JPanel {
 		
 		addAllActionListeners();
 	}
-
+	
+	// METHODS
 	private void addAllActionListeners() {
 		Component[] compArray = centerP.getComponents();
 		for (Component comp : compArray) {
@@ -169,5 +171,10 @@ public class UserInterface extends JPanel {
 				((JButton)comp).addActionListener(controller);
 			}
 		}
+	}
+	
+	public void updateUI(String calculation, String result) {
+		lblCalculation.setText(calculation);
+		lblResult.setText(result);
 	}
 }

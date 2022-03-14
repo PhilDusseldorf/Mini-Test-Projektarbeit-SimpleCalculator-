@@ -6,13 +6,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import app.view.MainView;
-import app.view.UserInterface;
 
 public class MainController implements ActionListener {
 	// ATTRIBUTES
 	private MainModel model;
 	private MainView view;
-	private UserInterface ui;
 	
 	// CONSTRUCTORS
 	public MainController() {
@@ -29,7 +27,14 @@ public class MainController implements ActionListener {
 	public MainView getView() {
 		return view;
 	}
-
+	
+	public String getResult() {
+		return model.getResult();
+	}
+	
+	public String getEquation() {
+		return model.getEquation();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -39,6 +44,11 @@ public class MainController implements ActionListener {
 			model.reactToButton(((JButton)e.getSource()).getText());
 		}
 		
+	}
+
+	public void updateUI() {
+		// TODO Auto-generated method stub
+		view.getUi().updateUI(model.getEquation(), model.getResult());
 	}
 
 }

@@ -1,7 +1,6 @@
 package app.view;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import app.MainController;
 
@@ -21,7 +20,16 @@ public class MainView extends JFrame {
 	private UserInterface ui;
 	private MainController controller;
 	
+	// GETTERS/SETTERS
+	public UserInterface getUi() {
+		return ui;
+	}
 	
+	public void setUi(UserInterface ui) {
+		this.ui = ui;
+	}
+
+	// CONSTRUCTORS
 	public MainView(MainController controller) {
 		super("Simple Calculator");
 		this.controller = controller;

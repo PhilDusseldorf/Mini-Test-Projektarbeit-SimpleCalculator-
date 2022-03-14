@@ -17,9 +17,18 @@ public class MainModel {
 		this.controller = controller;
 		
 		equation = new StringBuilder(equationLengthStart);
+		result = "Result";
 	}
 	
 	// GETTERS/SETTERS
+	public String getEquation() {
+		return equation.toString() == "" ? "Type in an equation" : equation.toString();
+	}
+	
+	public String getResult() {
+		return result;
+	}
+	
 	
 	// METHODS
 	public void reactToButton(String command) {
