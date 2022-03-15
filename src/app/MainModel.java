@@ -157,10 +157,11 @@ public class MainModel {
 				c = '.';
 			}
 			
-			// add char to String if it is not an operator
 			if (!isOp) {
+				// add char to String if it is not an operator
 				numStringB.append(c); 
 			} else {
+				// else clear the StringB to start a new number
 				numStringB.delete(0, numStringB.length());
 			}
 		}
