@@ -54,16 +54,15 @@ public class MainModel {
 		// start comparison only if sign is an operator and the equation is greater than 0 chars
 		if (equation.length() > 0 && Arrays.stream(symbols).anyMatch(symbol -> symbol == signAsInt)) {
 			for (int x : symbols) {
-				// delete last index of the equation if the new input is an operator
+				// delete last index of the equation if the new input is also an operator
 				if (equation.charAt(equation.length()-1) == x) {
 					equation.deleteCharAt(equation.length()-1);
 					break;
 				}
 			}
 		}
-		// add sign to equation
+		// add any sign to equation
 		equation.append(sign);
-		//System.out.println("New Equation: " + equation);
 		controller.showEquation(getEquation());
 	}
 
@@ -73,10 +72,10 @@ public class MainModel {
 	}
 
 	private void deleteEquation() {
-		// empty equation
+		// empty the equation
 		equation.delete(0, equation.length());
+		// update the UI
 		controller.showEquation(getEquation());
-		// show result text
 		controller.showResult(resultText);
 	}
 
@@ -99,7 +98,7 @@ public class MainModel {
 	}
 	
 	private boolean invalidExpression() {
-		// ATTENION: more checks would be possible
+		// ATTENION: more checks would be possible/necessary
 		// checks if last char of equation is an operator
 		String expression = equation.toString();
 		return Arrays.stream(operators).anyMatch(op -> op == (int)(expression.charAt(expression.length()-1)));
@@ -110,7 +109,6 @@ public class MainModel {
 		for (int i = 0; i < equation.length(); i++) {
 			char c = equation.charAt(i);
 			int intChar = (int)c;
-			System.out.println("Liste vorher: " + numbers.toString());
 			// if an op is found a calculation is performed
 			if (Arrays.stream(operators).anyMatch(op -> op == intChar)) {
 				switch (c) {
@@ -167,6 +165,5 @@ public class MainModel {
 		}
 		// add last number to numbers arraylist
 		numbers.add(Double.parseDouble(numStringB.toString()));
-		System.out.println(numbers.toString());
 	}
 }
