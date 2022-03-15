@@ -43,6 +43,8 @@ public class MainModel {
 			deleteLastEntry();
 		} else if (command == "Delete") {
 			deleteEquation();
+		} else if (command == "(" || command == ")") {
+			// do nothing at the moment
 		} else {
 			addToEquation(command);
 		}
@@ -67,8 +69,10 @@ public class MainModel {
 	}
 
 	private void deleteLastEntry() {
-		equation.deleteCharAt(equation.length()-1);	
-		controller.showEquation(getEquation());
+		if (equation.length()>0) {
+			equation.deleteCharAt(equation.length()-1);	
+			controller.showEquation(getEquation());			
+		}
 	}
 
 	private void deleteEquation() {
