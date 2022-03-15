@@ -37,7 +37,6 @@ public class MainModel {
 	
 	// METHODS
 	public void reactToButton(String command) {
-		// System.out.println(String.format("Button %s pressed! ", command));
 		if (command == "=") {
 			calculateEquation();
 		} else if (command == "Back") {
@@ -74,7 +73,7 @@ public class MainModel {
 	}
 
 	private void deleteEquation() {
-		// emtpy equation
+		// empty equation
 		equation.delete(0, equation.length());
 		controller.showEquation(getEquation());
 		// show result text
@@ -85,38 +84,54 @@ public class MainModel {
 		// empty lists
 		numbers.clear();
 		
-		
-		// get all numbers in equation
-		buildDoubleNumbers();
-		// perform calculation
-		double res = performCalculation();
-		
-		
-		equation.delete(0, equation.length());
-		result = String.valueOf(res);		
-		controller.showResult(result);
+		// perform calculations if expression is valid
+		if (!invalidExpression()) {
+			// get all numbers in equation
+			buildDoubleNumbers();
+			// calculate the result
+			double res = performCalculation();
+			equation.delete(0, equation.length());
+			result = String.valueOf(res);		
+			controller.showResult(result);
+		} else {
+			controller.showResult("No valid expression");
+		}
 	}
 	
+	private boolean invalidExpression() {
+		// ATTENION: more checks would be possible
+		// checks if last char of equation is an operator
+		String expression = equation.toString();
+		return Arrays.stream(operators).anyMatch(op -> op == (int)(expression.charAt(expression.length()-1)));
+	}
+
 	private double performCalculation() {
-		double res = 0.0;
+		double res = numbers.get(0);
 		for (int i = 0; i < equation.length(); i++) {
 			char c = equation.charAt(i);
 			int intChar = (int)c;
-			
+			System.out.println("Liste vorher: " + numbers.toString());
 			// if an op is found a calculation is performed
 			if (Arrays.stream(operators).anyMatch(op -> op == intChar)) {
 				switch (c) {
 					case '+':
-						res += numbers.get(0) + numbers.get(1);
+						res += numbers.get(1);
 						numbers.remove(0);
 						break;
 					case '-':
-						res += numbers.get(0) - numbers.get(1);
+						res -= numbers.get(1);
+						numbers.remove(0);
+						break;
+					case '*':
+						res *= numbers.get(1);
+						numbers.remove(0);
+						break;
+					case '/':
+						res /= numbers.get(1);
 						numbers.remove(0);
 						break;
 				}
 			}
-			System.out.println("Liste: " + numbers.toString());
 		}
 		return res;
 	}
