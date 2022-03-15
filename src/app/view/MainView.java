@@ -18,7 +18,6 @@ public class MainView extends JFrame {
 	
 	// components
 	private UserInterface ui;
-	private MainController controller;
 	
 	// GETTERS/SETTERS
 	public UserInterface getUi() {
@@ -32,7 +31,6 @@ public class MainView extends JFrame {
 	// CONSTRUCTORS
 	public MainView(MainController controller) {
 		super("Simple Calculator");
-		this.controller = controller;
 		this.ui = new UserInterface(this, controller);
 		
 		// basic settings
